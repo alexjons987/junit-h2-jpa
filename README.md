@@ -1,0 +1,1 @@
+# junit-h2-jpa
