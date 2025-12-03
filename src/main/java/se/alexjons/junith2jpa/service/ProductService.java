@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.alexjons.junith2jpa.dto.ProductResponseDTO;
 import se.alexjons.junith2jpa.entity.Product;
+import se.alexjons.junith2jpa.exception.NotFoundException;
 import se.alexjons.junith2jpa.repository.ProductRepository;
 
 import java.util.List;
@@ -23,6 +24,10 @@ public class ProductService {
 
     public Optional<ProductResponseDTO> getProductById(Long id) {
         Optional<Product> product = productRepository.findById(id);
+
+        if (product.isEmpty()) {
+            throw new NotFoundException("Product not found");
+        }
 
         return product.map(this::toResponseDTO);
     }

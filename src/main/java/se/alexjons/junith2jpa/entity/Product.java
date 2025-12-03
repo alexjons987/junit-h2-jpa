@@ -1,6 +1,7 @@
 package se.alexjons.junith2jpa.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "products")
@@ -10,18 +11,21 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    @NotNull
     private String name;
-    private double price;
+
+    @NotNull
+    private Double price;
 
     public Product() {
     }
 
-    public Product(String name, double price) {
+    public Product(String name, Double price) {
         this.name = name;
         this.price = price;
     }
 
-    public Product(Long id, String name, double price) {
+    public Product(Long id, String name, Double price) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -43,11 +47,11 @@ public class Product {
         this.name = name;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 }

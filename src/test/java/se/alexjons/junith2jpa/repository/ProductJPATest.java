@@ -1,5 +1,6 @@
 package se.alexjons.junith2jpa.repository;
 
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,19 @@ class ProductJPATest {
                 .containsExactly(savedBanana);
         assertThat(result)
                 .extracting(Product::getName)
-                .doesNotContain("Äpple", "Blåbär");
+                .doesNotContain(apple.getName(), blueberries.getName());
+    }
+
+    @Test
+    @DisplayName("ProductRepository should throw exception on validation violation")
+    void validationViolation() {
+        // Arrange
+        Product invalidProduct = new Product("Päron", null);
+
+        // Act + Assert
+        assertThrows(
+                ConstraintViolationException.class,
+                () -> productRepository.save(invalidProduct)
+        );
     }
 }

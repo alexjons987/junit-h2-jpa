@@ -8,8 +8,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import se.alexjons.junith2jpa.dto.ProductResponseDTO;
 import se.alexjons.junith2jpa.entity.Product;
+import se.alexjons.junith2jpa.exception.NotFoundException;
 import se.alexjons.junith2jpa.repository.ProductRepository;
 
 import java.util.Optional;
@@ -57,5 +59,22 @@ class ProductServiceUnitTest {
 
         verify(productRepository, times(1)).findById(1L);
         verify(productService, times(1)).toResponseDTO(entity);
+    }
+
+    @Test
+    @DisplayName("getProductById should throw exception on Optional.empty()")
+    void getProductByIdEmpty() {
+        assertThrows(NotFoundException.class, () -> {
+           productService.getProductById(999L);
+        });
+    }
+
+    @Test
+    @DisplayName("save is never called on delete")
+    void verifyDeleteNeverSaves() {
+        productRepository.deleteById(1L);
+
+        verify(productRepository, times(1)).deleteById(1L);
+        verify(productRepository, never()).save(any());
     }
 }
