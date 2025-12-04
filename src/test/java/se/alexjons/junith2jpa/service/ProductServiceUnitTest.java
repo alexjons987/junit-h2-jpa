@@ -65,7 +65,7 @@ class ProductServiceUnitTest {
     @DisplayName("getProductById should throw exception on Optional.empty()")
     void getProductByIdEmpty() {
         assertThrows(NotFoundException.class, () -> {
-           productService.getProductById(999L);
+           productService.getProductById(-1L);
         });
     }
 
