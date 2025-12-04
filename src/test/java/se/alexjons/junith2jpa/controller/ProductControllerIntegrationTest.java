@@ -37,7 +37,7 @@ class ProductControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("GET /api/products/{id} returns expected product")
     void getProductByIdReturnProduct() throws Exception {
         mockMvc.perform(get("/api/products/" + savedProduct.getId()))
                 .andExpect(status().isOk())
